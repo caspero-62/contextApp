@@ -1,32 +1,35 @@
 import React, { useState, createContext } from 'react';
 
-const ThemeContext = createContext();
+export const ThemeContext = createContext();
+
+// stylings based on theme chosen
+const themeValues = {
+    light: {
+        background: '#eee',
+        color: '#00154f',
+        linkColors: '#00154f'
+    },
+    dark: {
+        background: '#00154f',
+        color: '#f4af1b',
+        linkColors: '#f4af1b'
+    }
+}
 
 const ThemeContextProvider = ({ children }) => {
 
     // General Theme state
-    const [theme, setTheme] = useState('light');
-
-    // stylings based on theme chosen
-    const lightValues = {
-        background: '#fff',
-        color: '#00154f',
-        linkColors: '#00154f'
-    }
-
-    const darkValues = {
-        background: '#00154f',
-        color: '#f4af1b',
-        linkColors: '#f4a1b'
-    }
+    const [isLightTheme, setIsLightTheme] = useState(true);
 
     // Toggle theme Function
     const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
+        setIsLightTheme(isLightTheme ? false : true);
     }
 
+    const themeStyles = isLightTheme ? themeValues.light : themeValues.dark;
+
     return (
-        <ThemeContext.Provider value={{ theme, lightValues, darkValues, toggleTheme }}>
+        <ThemeContext.Provider value={{ isLightTheme, themeStyles, toggleTheme }}>
             { children }
         </ThemeContext.Provider>
     );
